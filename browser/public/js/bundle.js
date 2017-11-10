@@ -31091,7 +31091,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = function (props) {
   return _react2.default.createElement(
-    "div",
+    "article",
     null,
     _react2.default.createElement(
       "h2",
@@ -31144,6 +31144,10 @@ var _Register = __webpack_require__(314);
 
 var _Register2 = _interopRequireDefault(_Register);
 
+var _CreatePost = __webpack_require__(315);
+
+var _CreatePost2 = _interopRequireDefault(_CreatePost);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31172,7 +31176,8 @@ var AppConatiner = function (_React$Component) {
         null,
         _react2.default.createElement(_Login2.default, null),
         _react2.default.createElement(_Logout2.default, null),
-        _react2.default.createElement(_Register2.default, null)
+        _react2.default.createElement(_Register2.default, null),
+        _react2.default.createElement(_CreatePost2.default, null)
       );
     }
   }]);
@@ -31481,6 +31486,52 @@ exports.default = function (props) {
     _react2.default.createElement("input", { name: "lastName", id: "lastName", type: "text" }),
     _react2.default.createElement("br", null),
     _react2.default.createElement("input", { type: "submit", value: "Register" })
+  );
+};
+
+/***/ }),
+/* 315 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    "form",
+    { method: "post", action: "api/posts" },
+    _react2.default.createElement(
+      "label",
+      { "for": "title" },
+      "Title"
+    ),
+    _react2.default.createElement("input", { name: "title", id: "title", type: "text" }),
+    _react2.default.createElement("br", null),
+    _react2.default.createElement(
+      "label",
+      { "for": "introParagraph" },
+      "Intro Paragraph"
+    ),
+    _react2.default.createElement("input", { name: "introParagraph", id: "introParagraph", type: "text" }),
+    _react2.default.createElement("br", null),
+    _react2.default.createElement(
+      "label",
+      { "for": "content" },
+      "Content"
+    ),
+    _react2.default.createElement("input", { name: "content", id: "content", type: "text" }),
+    _react2.default.createElement("br", null),
+    _react2.default.createElement("input", { type: "submit" })
   );
 };
 
