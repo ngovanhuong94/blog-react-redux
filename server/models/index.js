@@ -8,7 +8,8 @@ const {Comment} = require('./comment')
 
 Post.belongsTo(User, { as: 'author' });
 User.hasMany(Post);
-Role.hasMany(User)
+User.belongsTo(Role);
+Role.hasMany(User);
 Role.belongsToMany(Permission, {through: 'RolePermission'})
 Permission.belongsToMany(Role, {through: 'RolePermission'})
 module.exports = { Sequelize, db, Post, User , Role, Comment, Permission};

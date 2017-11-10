@@ -6,7 +6,7 @@ import FooterContainer from './FooterContainer'
 
 import Login from '../components/Login'
 import Logout from '../components/Logout'
-
+import Register from '../components/Register'
 export default class AppConatiner extends React.Component {
   constructor(props){
     super(props)
@@ -19,6 +19,7 @@ export default class AppConatiner extends React.Component {
        <FooterContainer />*/}
        <Login />
        <Logout />
+       <Register />
       </div>
     )
   }

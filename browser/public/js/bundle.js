@@ -31140,6 +31140,10 @@ var _Logout = __webpack_require__(313);
 
 var _Logout2 = _interopRequireDefault(_Logout);
 
+var _Register = __webpack_require__(314);
+
+var _Register2 = _interopRequireDefault(_Register);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31167,7 +31171,8 @@ var AppConatiner = function (_React$Component) {
         'div',
         null,
         _react2.default.createElement(_Login2.default, null),
-        _react2.default.createElement(_Logout2.default, null)
+        _react2.default.createElement(_Logout2.default, null),
+        _react2.default.createElement(_Register2.default, null)
       );
     }
   }]);
@@ -31416,6 +31421,66 @@ exports.default = function (props) {
     "form",
     { method: "post", action: "api/logout" },
     _react2.default.createElement("input", { type: "submit", value: "Logout" })
+  );
+};
+
+/***/ }),
+/* 314 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    "form",
+    { method: "post", action: "api/register" },
+    _react2.default.createElement(
+      "label",
+      { "for": "username" },
+      "Username"
+    ),
+    _react2.default.createElement("input", { name: "username", id: "username", type: "text" }),
+    _react2.default.createElement("br", null),
+    _react2.default.createElement(
+      "label",
+      { "for": "password" },
+      "password"
+    ),
+    _react2.default.createElement("input", { name: "password", id: "password", type: "text" }),
+    _react2.default.createElement("br", null),
+    _react2.default.createElement(
+      "label",
+      { "for": "email" },
+      "Email"
+    ),
+    _react2.default.createElement("input", { name: "email", id: "email", type: "text" }),
+    _react2.default.createElement("br", null),
+    _react2.default.createElement(
+      "label",
+      { "for": "firstName" },
+      "firstName"
+    ),
+    _react2.default.createElement("input", { name: "firstName", id: "firstName", type: "text" }),
+    _react2.default.createElement("br", null),
+    _react2.default.createElement(
+      "label",
+      { "for": "lastName" },
+      "LastName "
+    ),
+    _react2.default.createElement("input", { name: "lastName", id: "lastName", type: "text" }),
+    _react2.default.createElement("br", null),
+    _react2.default.createElement("input", { type: "submit", value: "Register" })
   );
 };
 
