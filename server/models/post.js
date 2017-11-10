@@ -1,35 +1,39 @@
 const { Sequelize, db } = require('./db');
 
-const Post = db.define('post', {
+const Post = db.define('Post', {
   title: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true,
+    set: function (value) {
+      this.setDataValue('title', value.trim());
+    }
   },
   urlTitle: {
-    type: Sequelize.STRING
+    type: Sequelize.VIRTUAL,
+    get: function () {
+      var title = this.getDataValue('title')
+      return title.replace(/\s+/g, '-')
+    }
   },
   intro_paragraph: {
-    type: Sequelize.TEXT
+    type: Sequelize.STRING,
+    get: function () {
+      var intro = this.getDataValue('intro_paragraph')
+
+      if (intro) {
+        return intro
+      } else {
+        intro = this.getDataValue('content')
+        intro = intro.substr(0,75)
+        return `${intro}`
+      }
+    }
   },
   content: {
     type: Sequelize.TEXT,
     allowNull: false
   }
-}, {
-  hooks: {
-    beforeCreate: function(post) {
-      if (!post.intro_paragraph) {
-        const intro = post.content.substr(0,75);
-        post.intro_paragraph = `${intro}...`;
-      }
-    }
-  },
-  setterMethods: {
-    urlTitle: (value) => {
-      console.log(value);
-      return this.title.trim().replace(/\s+/g, '-');
-    }
-  }
 });
-
+Post.sync()
 module.exports = { Sequelize, db, Post };
