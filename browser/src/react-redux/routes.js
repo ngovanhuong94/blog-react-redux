@@ -8,11 +8,13 @@ import store from './store'
 
 // import components
 import AppConatiner from './containers/AppContainer'
+// import action creators from onEnter(s)
+import {retrievePosts} from './reducers/post.js'
 export default  () => {
   return (
  <Provider store={store}>
  <Router history={hashHistory}>
- <Route path="/" component={AppConatiner}></Route>
+ <Route path="/" component={AppConatiner} onEnter={retrievePosts}></Route>
  </Router>
  </Provider>
   )

@@ -13681,8 +13681,13 @@ var _AppContainer = __webpack_require__(308);
 
 var _AppContainer2 = _interopRequireDefault(_AppContainer);
 
+var _post = __webpack_require__(316);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//import containers
+
+// import components
 exports.default = function () {
   return _react2.default.createElement(
     _reactRedux.Provider,
@@ -13690,14 +13695,11 @@ exports.default = function () {
     _react2.default.createElement(
       _reactRouter.Router,
       { history: _reactRouter.hashHistory },
-      _react2.default.createElement(_reactRouter.Route, { path: '/', component: _AppContainer2.default })
+      _react2.default.createElement(_reactRouter.Route, { path: '/', component: _AppContainer2.default, onEnter: _post.retrievePosts })
     )
   );
 };
-
-//import containers
-
-// import components
+// import action creators from onEnter(s)
 
 /***/ }),
 /* 132 */
@@ -14564,7 +14566,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(75);
 
-exports.default = (0, _redux.combineReducers)({});
+var _post = __webpack_require__(316);
+
+var _post2 = _interopRequireDefault(_post);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = (0, _redux.combineReducers)({
+  posts: _post2.default
+});
 
 /***/ }),
 /* 153 */
@@ -14578,6 +14588,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _redux = __webpack_require__(75);
+
+var _reduxDevtoolsExtension = __webpack_require__(317);
 
 var _rootReducer = __webpack_require__(152);
 
@@ -14593,7 +14605,7 @@ var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _redux.createStore)(_rootReducer2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _reduxLogger2.default)({ collapsed: true })));
+exports.default = (0, _redux.createStore)(_rootReducer2.default, (0, _reduxDevtoolsExtension.composeWithDevTools)((0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _reduxLogger2.default)({ collapsed: true }))));
 
 /***/ }),
 /* 154 */
@@ -31388,14 +31400,14 @@ exports.default = function (props) {
     { method: "post", action: "api/login" },
     _react2.default.createElement(
       "label",
-      { "for": "username" },
+      { htmlFor: "username" },
       "Username: "
     ),
     _react2.default.createElement("input", { id: "username", name: "username", type: "text" }),
     _react2.default.createElement("br", null),
     _react2.default.createElement(
       "label",
-      { "for": "password" },
+      { htmlFor: "password" },
       "Password: "
     ),
     _react2.default.createElement("input", { id: "password", name: "password", type: "password" }),
@@ -31452,35 +31464,35 @@ exports.default = function (props) {
     { method: "post", action: "api/register" },
     _react2.default.createElement(
       "label",
-      { "for": "username" },
+      { htmlFor: "username" },
       "Username"
     ),
     _react2.default.createElement("input", { name: "username", id: "username", type: "text" }),
     _react2.default.createElement("br", null),
     _react2.default.createElement(
       "label",
-      { "for": "password" },
+      { htmlFor: "password" },
       "password"
     ),
     _react2.default.createElement("input", { name: "password", id: "password", type: "text" }),
     _react2.default.createElement("br", null),
     _react2.default.createElement(
       "label",
-      { "for": "email" },
+      { htmlFor: "email" },
       "Email"
     ),
     _react2.default.createElement("input", { name: "email", id: "email", type: "text" }),
     _react2.default.createElement("br", null),
     _react2.default.createElement(
       "label",
-      { "for": "firstName" },
+      { htmlFor: "firstName" },
       "firstName"
     ),
     _react2.default.createElement("input", { name: "firstName", id: "firstName", type: "text" }),
     _react2.default.createElement("br", null),
     _react2.default.createElement(
       "label",
-      { "for": "lastName" },
+      { htmlFor: "lastName" },
       "LastName "
     ),
     _react2.default.createElement("input", { name: "lastName", id: "lastName", type: "text" }),
@@ -31512,21 +31524,21 @@ exports.default = function (props) {
     { method: "post", action: "api/posts" },
     _react2.default.createElement(
       "label",
-      { "for": "title" },
+      { htmlFor: "title" },
       "Title"
     ),
     _react2.default.createElement("input", { name: "title", id: "title", type: "text" }),
     _react2.default.createElement("br", null),
     _react2.default.createElement(
       "label",
-      { "for": "introParagraph" },
+      { htmlFor: "introParagraph" },
       "Intro Paragraph"
     ),
     _react2.default.createElement("input", { name: "introParagraph", id: "introParagraph", type: "text" }),
     _react2.default.createElement("br", null),
     _react2.default.createElement(
       "label",
-      { "for": "content" },
+      { htmlFor: "content" },
       "Content"
     ),
     _react2.default.createElement("input", { name: "content", id: "content", type: "text" }),
@@ -31534,6 +31546,95 @@ exports.default = function (props) {
     _react2.default.createElement("input", { type: "submit" })
   );
 };
+
+/***/ }),
+/* 316 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.retrievePosts = exports.retrieve = undefined;
+
+var _axios = __webpack_require__(133);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var initialState = {
+  posts: []
+};
+
+var reducer = function reducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  console.log('state', state);
+  var newState = Object.assign({}, state);
+  console.log('first new state', newState);
+
+  switch (action.type) {
+    case RETRIEVE_POSTS:
+      newState.posts = action.posts;
+      console.log('second new state', newState);
+  }
+
+  return newState;
+};
+
+var RETRIEVE_POSTS = 'RETRIEVE_POSTS';
+
+var retrieve = function retrieve(posts) {
+  return {
+    type: RETRIEVE_POSTS,
+    posts: posts
+  };
+};
+
+var retrievePosts = function retrievePosts() {
+  return function (dispatch) {
+    return _axios2.default.get('/api/posts').then(function (posts) {
+      return dispatch(retrieve(posts));
+    }).catch(function (err) {
+      return console.error(err.message);
+    });
+  };
+};
+
+exports.default = reducer;
+exports.retrieve = retrieve;
+exports.retrievePosts = retrievePosts;
+
+/***/ }),
+/* 317 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var compose = __webpack_require__(75).compose;
+
+exports.__esModule = true;
+exports.composeWithDevTools = (
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :
+    function() {
+      if (arguments.length === 0) return undefined;
+      if (typeof arguments[0] === 'object') return compose;
+      return compose.apply(null, arguments);
+    }
+);
+
+exports.devToolsEnhancer = (
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION__ :
+    function() { return function(noop) { return noop; } }
+);
+
 
 /***/ })
 /******/ ]);
